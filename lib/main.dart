@@ -16,8 +16,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await CashHelper.init();
-  // await WebServices().representativeOrder();
-
   runApp(const MyApp());
 }
 

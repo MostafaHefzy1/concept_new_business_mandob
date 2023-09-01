@@ -20,10 +20,10 @@ class CollectingsDetailsItem extends StatelessWidget {
           child: DataTable2(
               columnSpacing: 25,
               horizontalMargin: 12,
-              minWidth: 250.w,
-              border: TableBorder.all(color: MyColors.primaryColor, width: 2),
+              minWidth: 500.w,
+              border: TableBorder.all(color: MyColors.lightGrey, width: 2),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(30),
               ),
               headingTextStyle: TextStyle(
                   color: MyColors.primaryColor,

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:mandobaswaaq/logic/logic_cubit.dart';
 import 'package:mandobaswaaq/utils/style.dart';
 
@@ -48,180 +49,193 @@ class _OrdersRepresentativeScreenState
                 cubit.allDeactivateRepresentativeModel != null &&
                 cubit.allCollectingRepresentativeModel != null &&
                 cubit.meRepresentativeModel != null
-            ? Directionality(
-                textDirection: TextDirection.rtl,
-                child: DefaultTabController(
-                    length: 3,
-                    initialIndex: 0,
-                    child: Scaffold(
-                        floatingActionButton: FloatingActionButtonWidget(
-                          storeName: cubit.meRepresentativeModel!.data!
-                              .employees![0].store!.nameAr!,
-                          storeNumber1: cubit.meRepresentativeModel!.data!
-                              .employees![0].store!.firstPhone!,
-                          storeNumber2: cubit.meRepresentativeModel!.data!
-                                      .employees![0].store!.secondPhone ==
-                                  null
-                              ? ""
-                              : cubit.meRepresentativeModel!.data!.employees![0]
-                                  .store!.secondPhone!,
+            ? DefaultTabController(
+                length: 3,
+                initialIndex: 0,
+                child: Scaffold(
+                    floatingActionButton: FloatingActionButtonWidget(
+                      storeName: cubit.meRepresentativeModel!.data!
+                          .employees![0].store!.nameAr!,
+                      storeNumber1: cubit.meRepresentativeModel!.data!
+                          .employees![0].store!.firstPhone!,
+                      storeNumber2: cubit.meRepresentativeModel!.data!
+                                  .employees![0].store!.secondPhone ==
+                              null
+                          ? ""
+                          : cubit.meRepresentativeModel!.data!.employees![0]
+                              .store!.secondPhone!,
+                    ),
+                    appBar: AppBar(
+                        backgroundColor: MyColors.whiteColor,
+                        centerTitle: true,
+                        title:
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                            //   children: [
+                            Text(
+                          "  خط السير ",
+                          style: TextStyle(
+                              color: MyColors.primaryColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold),
                         ),
-                        appBar: AppBar(
-                            backgroundColor: MyColors.whiteColor,
-                            centerTitle: true,
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "  خط السير ",
-                                  style: TextStyle(
-                                      color: MyColors.primaryColor,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                cubit
-                                                .allCollectingRepresentativeModel!
-                                                .collectingRepresentative!
-                                                .length +
-                                            cubit
-                                                .allDeactivateRepresentativeModel!
-                                                .data!
-                                                .length +
-                                            cubit.allOrderRepresentativeModel!
-                                                .data!.length ==
-                                        0
-                                    ? SizedBox()
-                                    : CircleAvatar(
-                                        radius: 30,
-                                        backgroundColor: MyColors.whiteColor,
-                                        child: Text(
-                                          '${cubit.allCollectingRepresentativeModel!.collectingRepresentative!.length + cubit.allDeactivateRepresentativeModel!.data!.length + cubit.allOrderRepresentativeModel!.data!.length}موعد ',
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: MyColors.redColor),
-                                        ),
-                                      ),
-                              ],
+                        // cubit.allCollectingRepresentativeModel!
+                        //                 .collectingRepresentative!.length +
+                        //             cubit.allDeactivateRepresentativeModel!
+                        //                 .data!.length +
+                        //             cubit.allOrderRepresentativeModel!.data!
+                        //                 .length ==
+                        //         0
+                        //     ? SizedBox()
+                        //     : CircleAvatar(
+                        //         radius: 30,
+                        //         backgroundColor: MyColors.whiteColor,
+                        //         child: Text(
+                        //           '${cubit.allCollectingRepresentativeModel!.collectingRepresentative!.length + cubit.allDeactivateRepresentativeModel!.data!.length + cubit.allOrderRepresentativeModel!.data!.length}موعد ',
+                        //           style: const TextStyle(
+                        //               fontSize: 20,
+                        //               fontWeight: FontWeight.bold,
+                        //               color: MyColors.redColor),
+                        //         ),
+                        //       ),
+                        // ],
+                        // ),
+                        elevation: 0.0,
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              CashHelper.removeData(key: "idRepresentative");
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const LoginScreen()),
+                                  (route) => false);
+                            },
+                            child: Text(
+                              "تسجيل الخروج",
+                              style: TextStyle(
+                                color: MyColors.greyColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.sp,
+                              ),
                             ),
-                            elevation: 0.0,
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  CashHelper.removeData(
-                                      key: "idRepresentative");
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => const LoginScreen()),
-                                      (route) => false);
-                                },
-                                child: Text(
-                                  "تسجيل الخروج",
-                                  style: TextStyle(
-                                    color: MyColors.greyColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12.sp,
-                                  ),
+                          )
+                        ],
+                        bottom: TabBar(
+                          indicatorColor: MyColors.primaryColor,
+                          tabs: [
+                            Tab(
+                              child:
+                                  //  Row(
+                                  //   children: [
+                                  Text(
+                                "الطلبات",
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: MyColors.primaryColor,
                                 ),
-                              )
-                            ],
-                            bottom: TabBar(
-                              indicatorColor: MyColors.primaryColor,
-                              tabs: [
-                                Tab(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "الطلبات",
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: MyColors.primaryColor,
-                                        ),
-                                      ),
-                                      cubit.allOrderRepresentativeModel!.data!
-                                              .isEmpty
-                                          ? SizedBox()
-                                          : CircleAvatar(
-                                              radius: 30,
-                                              backgroundColor:
-                                                  MyColors.whiteColor,
-                                              child: Text(
-                                                '${cubit.allOrderRepresentativeModel!.data!.length}',
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: MyColors.redColor),
-                                              ),
-                                            ),
-                                    ],
-                                  ),
+                              ),
+                              // cubit.allOrderRepresentativeModel!.data!
+                              //         .isEmpty
+                              //     ? SizedBox()
+                              //     : CircleAvatar(
+                              //         radius: 30,
+                              //         backgroundColor: MyColors.whiteColor,
+                              //         child: Text(
+                              //           '${cubit.allOrderRepresentativeModel!.data!.length}',
+                              //           style: const TextStyle(
+                              //               fontSize: 15,
+                              //               fontWeight: FontWeight.bold,
+                              //               color: MyColors.redColor),
+                              //         ),
+                              //       ),
+                              //   ],
+                              // ),
+                            ),
+                            Tab(
+                              child:
+                                  //  Row(
+                                  //   children: [
+                                  Text(
+                                "الاعطال",
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: MyColors.primaryColor,
                                 ),
-                                Tab(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "الاعطال",
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: MyColors.primaryColor,
-                                        ),
-                                      ),
-                                      cubit.allDeactivateRepresentativeModel!
-                                              .data!.isEmpty
-                                          ? SizedBox()
-                                          : CircleAvatar(
-                                              radius: 30,
-                                              backgroundColor:
-                                                  MyColors.whiteColor,
-                                              child: Text(
-                                                '${cubit.allDeactivateRepresentativeModel!.data!.length}',
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: MyColors.redColor),
-                                              ),
-                                            ),
-                                    ],
-                                  ),
+                              ),
+                              // cubit.allDeactivateRepresentativeModel!.data!
+                              //         .isEmpty
+                              //     ? SizedBox()
+                              //     : CircleAvatar(
+                              //         radius: 30,
+                              //         backgroundColor: MyColors.whiteColor,
+                              //         child: Text(
+                              //           '${cubit.allDeactivateRepresentativeModel!.data!.length}',
+                              //           style: const TextStyle(
+                              //               fontSize: 15,
+                              //               fontWeight: FontWeight.bold,
+                              //               color: MyColors.redColor),
+                              //         ),
+                              //       ),
+                              // ],
+                              // ),
+                            ),
+                            Tab(
+                              // child: Row(
+                              //   children: [
+                              child: Text(
+                                "التحصيلات",
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: MyColors.primaryColor,
                                 ),
-                                Tab(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "التحصيلات",
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: MyColors.primaryColor,
-                                        ),
-                                      ),
-                                      cubit.allCollectingRepresentativeModel!
-                                              .collectingRepresentative!.isEmpty
-                                          ? SizedBox()
-                                          : CircleAvatar(
-                                              radius: 30,
-                                              backgroundColor:
-                                                  MyColors.whiteColor,
-                                              child: Text(
-                                                '${cubit.allCollectingRepresentativeModel!.collectingRepresentative!.length}',
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: MyColors.redColor),
-                                              ),
-                                            ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )),
-                        body: const TabBarView(children: <Widget>[
-                          OrderScreen(),
-                          DeactivateScreen(),
-                          InstallemantScreen(),
-                        ]))),
-              )
+                              ),
+                              // cubit.allCollectingRepresentativeModel!
+                              //         .collectingRepresentative!.isEmpty
+                              //     ? SizedBox()
+                              //     : CircleAvatar(
+                              //         radius: 30,
+                              //         backgroundColor: MyColors.whiteColor,
+                              //         child: Text(
+                              //           '${cubit.allCollectingRepresentativeModel!.collectingRepresentative!.length}',
+                              //           style: const TextStyle(
+                              //               fontSize: 15,
+                              //               fontWeight: FontWeight.bold,
+                              //               color: MyColors.redColor),
+                              //         ),
+                              //       ),
+                              //   ],
+                              // ),
+                            ),
+                          ],
+                        )),
+                    body: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          child: Text(
+                            """${DateFormat('EEEE').format(DateTime.now()) == "Friday" ? "الجمعه" : DateFormat('EEEE').format(DateTime.now()) == "Saturday" ? "السبت" : DateFormat('EEEE').format(DateTime.now()) == "Sunday" ? "الأحد" : DateFormat('EEEE').format(DateTime.now()) == "Monday" ? "الإثنين " : DateFormat('EEEE').format(DateTime.now()) == "Tuesday" ? "الثلاثاء " : DateFormat('EEEE').format(DateTime.now()) == "Wednesday" ? "الأربعاء " : DateFormat('EEEE').format(DateTime.now()) == "Thursday" ? "الخميس " : DateFormat('EEEE').format(DateTime.now())}   ${DateTime.now().toString().substring(0, 10)}""",
+                            style: TextStyle(
+                                color: MyColors.primaryColor,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const Expanded(
+                          child: TabBarView(children: <Widget>[
+                            OrderScreen(),
+                            DeactivateScreen(),
+                            InstallemantScreen(),
+                          ]),
+                        ),
+                      ],
+                    )))
             : const Scaffold(body: Center(child: LoadingIndicator()));
       },
     );

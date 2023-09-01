@@ -19,7 +19,7 @@ class OrderDetailsItem extends StatelessWidget {
           child: DataTable2(
               columnSpacing: 25,
               horizontalMargin: 12,
-              minWidth: 250.w,
+              minWidth: 500.w,
               border: TableBorder.all(color: MyColors.lightGrey, width: 2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
